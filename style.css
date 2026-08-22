@@ -1,0 +1,241 @@
+/* Custom styles for our Anime Theme */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #F0F8FF; /* Alice Blue - a very light sky blue */
+    color: #2c3e50; /* Dark Navy/Slate */
+    overflow-x: hidden; /* cegah scroll horizontal di HP */
+    -webkit-text-size-adjust: 100%; /* cegah font auto-zoom di iOS */
+}
+
+.font-anime {
+    font-family: 'Mochiy Pop One', sans-serif;
+}
+
+.text-sakura {
+    color: #FFB7C5; /* Cherry Blossom Pink */
+}
+
+.bg-navy {
+    background-color: #2c3e50;
+}
+
+/* Style for the falling petals canvas */
+#sakura-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    pointer-events: none; /* Allows clicks to go through the canvas */
+}
+
+/* For hiding the scrollbar */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+.scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+/* Hall of Fame scroller: bikin swipe di HP lebih smooth */
+#hall-of-fame-scroller {
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Kunci lebar tiap card Hall of Fame di semua ukuran layar,
+   biar nggak ambigu/ngebug di browser Android (nested flex issue) */
+#hall-of-fame-scroller .snap-center {
+    flex: 0 0 auto;
+}
+
+/* Semua gambar/video nggak boleh lebih lebar dari layar */
+img, video {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ============================= */
+/* MOBILE RESPONSIVE ADJUSTMENTS */
+/* ============================= */
+
+/* Tablet & HP besar */
+@media (max-width: 768px) {
+    header {
+        height: 100svh; /* pakai small viewport height biar pas di HP (address bar tidak ganggu) */
+    }
+
+    h1.font-anime {
+        font-size: 2.5rem; /* turunin dari text-7xl biar nggak overflow */
+        line-height: 1.15;
+    }
+
+    #countdown {
+        font-size: 1.15rem;
+        letter-spacing: 0.05em;
+    }
+
+    section h2.font-anime {
+        font-size: 2.25rem;
+    }
+
+    main {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    /* Surat/pesan biar nggak terlalu padat di HP */
+    section .bg-white.p-8 {
+        padding: 1.5rem;
+    }
+
+    /* Timeline: pastikan foto & teks stack rapi + gap lebih kecil */
+    section .space-y-16 > div {
+        gap: 1.5rem;
+    }
+
+    /* Hall of Fame card: pakai vw (bukan %) biar nggak relatif ke parent
+       flex yang lebarnya ambigu -> ini penyebab bug kegedean di Android */
+    #hall-of-fame-scroller .snap-center {
+        width: 85vw;
+        max-width: 340px;
+    }
+
+    /* Pakai aspect-ratio (bukan height tetap) biar foto nggak kepotong/gepeng
+       walaupun rasio asli tiap foto beda-beda.
+       max-height jadi jaring pengaman buat browser Android lama yang
+       belum support aspect-ratio dengan baik. */
+    #hall-of-fame-scroller img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 4 / 5;
+        object-fit: cover;
+        max-height: 420px;
+    }
+
+    /* Tombol scroll kiri/kanan disembunyikan di HP (swipe lebih natural) */
+    #scroll-left-btn,
+    #scroll-right-btn {
+        display: none;
+    }
+
+    /* Gallery jadi 2 kolom tetap tapi jarak dikecilkan */
+    #lightgallery {
+        gap: 0.5rem;
+    }
+    #lightgallery a {
+        height: 9rem;
+    }
+
+    /* Tombol musik jangan ketutup notch/gesture bar HP */
+    #music-toggle-btn {
+        bottom: env(safe-area-inset-bottom, 1rem);
+        right: env(safe-area-inset-right, 1rem);
+        padding: 0.65rem;
+    }
+}
+
+/* HP kecil (contoh: iPhone SE, layar < 380px) */
+@media (max-width: 380px) {
+    h1.font-anime {
+        font-size: 2rem;
+    }
+
+    section h2.font-anime {
+        font-size: 1.75rem;
+    }
+
+    #hall-of-fame-scroller .snap-center {
+        width: 82vw;
+        max-width: 300px;
+    }
+
+    #lightgallery {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    #lightgallery a {
+        height: 7.5rem;
+    }
+}
+/* ============================= */
+/* PIN GATE */
+/* ============================= */
+body.pin-locked {
+    overflow: hidden;
+    height: 100vh;
+}
+
+#pin-gate {
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+#pin-gate.pin-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+@keyframes pin-shake {
+    10%, 90% { transform: translateX(-2px); }
+    20%, 80% { transform: translateX(4px); }
+    30%, 50%, 70% { transform: translateX(-8px); }
+    40%, 60% { transform: translateX(8px); }
+}
+
+#pin-gate-box.pin-shake {
+    animation: pin-shake 0.5s;
+}
+
+@keyframes pin-pop {
+    0% { transform: scale(0.7); opacity: 0; }
+    60% { transform: scale(1.05); opacity: 1; }
+    100% { transform: scale(1); }
+}
+
+.animate-pop {
+    animation: pin-pop 0.4s ease-out;
+}
+
+/* ============================= */
+/* PUZZLE MINIGAME */
+/* ============================= */
+.puzzle-piece {
+    background-repeat: no-repeat;
+    cursor: pointer;
+    border-radius: 6px;
+    border: 2px solid transparent;
+    transition: transform 0.15s ease, filter 0.15s ease, border-color 0.15s ease;
+}
+
+.puzzle-piece:hover {
+    filter: brightness(1.08);
+}
+
+.puzzle-piece.selected {
+    border-color: #FFB7C5;
+    transform: scale(0.94);
+    box-shadow: 0 0 0 3px rgba(255, 183, 197, 0.5);
+}
+
+.puzzle-slot {
+    background-color: #ffffff;
+    border: 2px dashed #f3c6d1;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.puzzle-slot.filled {
+    border-style: solid;
+    border-color: transparent;
+}
+
+.puzzle-slot.correct {
+    border: 2px solid #7ed957;
+}
+
+.puzzle-tray-empty {
+    aspect-ratio: 1 / 1;
+}
+

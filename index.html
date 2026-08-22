@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday, Keysha Maurell Saidina</title>
+
+  <!-- This script pulls in Tailwind CSS for styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- These are for the animations and photo gallery -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.1/css/lightgallery.min.css" />
+
+  <!-- Google Fonts for the Anime look -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Link to your new external CSS file -->
+  <link rel="stylesheet" href="style.css">
+  <!-- IMPORTANT: Replace with a real image link after you upload it -->
+  <meta property="og:image" content="https://placehold.co/1200x630/87CEEB/FFFFFF?text=A+Surprise+For+[Name]">
+</head>
+<body>
+<!-- PIN Gate Overlay: muncul pertama kali sebelum website kebuka -->
+<div id="pin-gate" class="fixed inset-0 z-[9999] flex items-center justify-center bg-gradient-to-br from-pink-200 via-rose-100 to-sky-100 px-4">
+  <div id="pin-gate-box" class="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 md:p-10 w-full max-w-sm text-center border-4 border-white">
+    <div class="text-5xl mb-3">🔒🌸</div>
+    <h2 class="font-anime text-2xl md:text-3xl text-sakura mb-2">Eits, Rahasia!</h2>
+    <p class="text-sm text-gray-500 mb-6">Masukin PIN rahasia dulu ya buat buka kejutannya~</p>
+
+    <input
+      id="pin-input"
+      type="password"
+      inputmode="numeric"
+      maxlength="10"
+      placeholder="• • • •"
+      class="w-full text-center text-2xl tracking-[0.5em] py-3 px-4 rounded-xl border-2 border-pink-200 focus:border-sakura focus:outline-none mb-3 transition-colors"
+      autocomplete="off"
+    >
+
+    <p id="pin-error-msg" class="text-sm text-red-400 mb-3 h-5"></p>
+
+    <button id="pin-submit-btn" class="w-full bg-sakura hover:bg-pink-300 text-white font-semibold py-3 rounded-xl shadow-md transition-transform hover:scale-105 active:scale-95">
+      Buka 🔑
+    </button>
+  </div>
+</div>
+
+<!-- Popup lucu kalau PIN-nya bener -->
+<div id="pin-success-popup" class="fixed inset-0 z-[10000] hidden items-center justify-center bg-black/40 px-4">
+  <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-10 w-full max-w-sm text-center border-4 border-white animate-pop">
+    <div class="text-6xl mb-3">🎉🥳✨</div>
+    <h2 class="font-anime text-2xl md:text-3xl text-sakura mb-2">Yeay, Bener!</h2>
+    <p class="text-gray-500">Selamat datang! Tungguin kejutannya ya~ 💗</p>
+  </div>
+</div>
+
+<!-- Canvas for the falling cherry blossoms -->
+<canvas id="sakura-canvas"></canvas>
+
+<!-- Background music -->
+<audio id="bg-music" src="music/music.mp3" loop preload="auto"></audio>
+<button id="music-toggle-btn" class="fixed bottom-5 right-5 z-50 bg-white/90 hover:bg-white text-sakura rounded-full p-3 shadow-lg transition-transform hover:scale-110" aria-label="Toggle music">
+  <!-- Speaker (unmuted) icon -->
+  <svg id="music-icon-on" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+  </svg>
+  <!-- Speaker (muted) icon -->
+  <svg id="music-icon-off" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    <line x1="23" y1="9" x2="17" y2="15"></line>
+    <line x1="17" y1="9" x2="23" y2="15"></line>
+  </svg>
+</button>
+
+<!-- Section 1: Hero Welcome -->
+<header class="h-screen relative flex items-center justify-center text-white overflow-hidden">
+  <video autoplay loop muted playsinline class="absolute top-0 left-0 w-full h-full object-cover z-[-1]">
+    <source src="img/sa.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+
+  <div class="text-center z-10 p-4" data-aos="fade-in" data-aos-duration="1500">
+    <h1 class="text-5xl md:text-7xl font-anime drop-shadow-lg">Happy Birthday, Keysha Maurell Saidina</h1>
+    <p class="mt-4 text-xl font-semibold">🎂 Happy Birthday! 🥳❤️
+
+Selamat ulang tahun yaa! Semoga di umur yang baru ini kamu selalu diberikan kesehatan, kebahagiaan, dan banyak hal baik yang datang ke hidup kamu. Semoga semua yang kamu inginkan dan cita-citakan bisa tercapai satu per satu.</p>
+    <div id="countdown" class="mt-6 text-2xl font-semibold tracking-widest leading-relaxed"></div>
+  </div>
+</header>
+
+<!-- Main Content -->
+<main class="container mx-auto p-6 md:p-12">
+
+  <!-- Section 2: A Letter For You -->
+  <section class="my-16 md:my-24 max-w-3xl mx-auto text-center" data-aos="fade-up">
+    <h2 class="text-4xl md:text-5xl font-anime text-sakura mb-8 drop-shadow-sm">A Special Message For You</h2>
+    <div class="text-left text-lg leading-relaxed space-y-4 bg-white p-8 rounded-lg shadow-lg">
+      <!-- TODO: Write your personal letter here -->
+      <p>Hey Keysha Maurell Saidina,</p>
+      <p>
+HAII KAMU KEYSHA MAURELL Happy birthday to youu 🎂, semoga dengan bertambahnya usia mu ini hal-hal mengenai kebaikan dan kebahagiaan selalu menanti mu, I pray and hope that all your wishes will come true sayang😃, maaf jika kesalahan-kesalahan yang ku perbuat banyak menyakiti mu dan aku sangat berharap di usia mu yg ke 17 inii hal-hal tentang kita ber2 selalu berjalan dengan baik dan bahagia selalu kedepannya and, I pray that I can be with you forever and achieve success together, I love you deeply beyond measure</p>
+      <p class="text-right mt-8">
+        Yusuf Efendy<br>
+      </p>
+    </div>
+  </section>
+
+  <!-- Section 3: The Timeline -->
+  <section class="my-16 md:my-24">
+    <h2 class="text-4xl md:text-5xl font-anime text-center mb-12" data-aos="fade-up">Your Story Arc</h2>
+    <div class="space-y-16">
+      <!-- Timeline Item 1 -->
+      <div class="flex flex-col md:flex-row items-center gap-8" data-aos="fade-right">
+        <!-- TODO: Replace with your photo -->
+        <img src="img/img1.png" alt="Add photo 1" class="w-full md:w-1/2 rounded-lg shadow-xl border-4 border-white"> <!--replce img1.png with name of your img-->
+        <div class="text-center md:text-left">
+          <!-- TODO: Customize the date and story -->
+          <h3 class="text-2xl font-anime text-sakura">Our first Meeting</h3>
+          <p class="mt-2 text-lg">Selamat ulang tahun, sayang. Terima kasih sudah hadir dan bikin hari-hariku selalu jauh lebih berwarna. Semoga di usiamu yang baru ini kamu selalu sehat, bahagia, dan segala hal baik selalu datang ke hidupmu. Aku beruntung banget punya kamu.</p>
+            <br>
+        </div>
+      </div>
+      <!-- Timeline Item 2 -->
+      <div class="flex flex-col md:flex-row-reverse items-center gap-8" data-aos="fade-left">
+        <!-- TODO: Replace with your photo -->
+        <img src="img/img2.png" alt="Add photo 2" class="w-full md:w-1/2 rounded-lg shadow-xl border-4 border-white">
+        <div class="text-center md:text-right">
+          <!-- TODO: Customize the date and story -->
+          <h3 class="text-2xl font-anime text-sakura">Part 2</h3>
+          <p class="mt-2 text-lg">Happy birthday, cintaku. Semoga di usia yang baru ini, pintu-pintu kesuksesan terbuka lebar buat kamu. Apa pun mimpi besar yang sedang kamu perjuangkan, semoga selalu dimudahkan jalannya dan lekas tercapai satu persatu.</p>
+         <br>
+        </div>
+      </div>
+      <!-- Timeline Item 3 (NEW) -->
+      <div class="flex flex-col md:flex-row items-center gap-8" data-aos="fade-right">
+        <img src="img/img3.png" alt="Add photo 3" class="w-full md:w-1/2 rounded-lg shadow-xl border-4 border-white">
+        <div class="text-center md:text-left">
+          <h3 class="text-2xl font-anime text-sakura">Part3</h3>
+          <p class="mt-2 text-lg">Selamat bertambah usia, kesayanganku. Aku berdoa semoga hatimu selalu dilapangkan, dijauhkan dari rasa lelah yang berlebihan, dan dipenuhi rasa tenang serta kebahagiaan setiap harinya. Tetap jadi pribadi hebat yang selalu aku banggakan, ya.</p>
+         <br>
+        </div>
+      </div>
+      <!-- Timeline Item 4 (NEW) -->
+      <div class="flex flex-col md:flex-row-reverse items-center gap-8" data-aos="fade-left">
+        <img src="img/img4.png" alt="Add photo4" class="w-full md:w-1/2 rounded-lg shadow-xl border-4 border-white">
+        <div class="text-center md:text-right">
+          <h3 class="text-2xl font-anime text-sakura">Part 4</h3>
+          <p class="mt-2 text-lg">Selamat ulang tahun untuk orang yang paling berarti di hidupku. Semoga umur yang baru ini membawa kamu pada versi terbaik dirimu, dan semoga kita selalu diberi kesempatan untuk terus tumbuh, berproses, serta merayakan hari-hari baik bersama ke depannya.</p>
+            <br>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: Your Favourite Photos of your loved Ones (NEW SECTION) -->
+  <section class="my-16 md:my-24">
+    <h2 class="text-4xl md:text-5xl font-anime text-center mb-12" data-aos="fade-up">Hall of Fame</h2>
+    <div class="relative">
+      <!-- Scroll Buttons -->
+      <button id="scroll-left-btn" class="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-white/80 hover:bg-white rounded-full p-2 shadow-md transition-opacity opacity-0 md:opacity-100">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sakura" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+      </button>
+      <button id="scroll-right-btn" class="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-white/80 hover:bg-white rounded-full p-2 shadow-md transition-opacity opacity-0 md:opacity-100">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sakura" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+      </button>
+
+      <!-- Scrollable Container -->
+      <div id="hall-of-fame-scroller" class="flex overflow-x-auto scroll-smooth snap-x snap-mandatory scrollbar-hide p-4 -mx-4">
+        <div class="flex snap-x snap-mandatory gap-8">
+          <!--  Card 1 -->
+          <div class="snap-center flex-shrink-0 w-10/12 sm:w-1/2 md:w-1/3 lg:w-1/4" data-aos="fade-up" data-aos-delay="100">
+            <div class="bg-white p-6 rounded-lg shadow-lg text-center h-full">
+              <img src="img/image1.png" alt="Photo 1" class="w-full h-80 object-cover rounded-md mb-4"> 
+              <h3 class="text-2xl font-anime text-sakura">Photo 1</h3>
+              <p class="mt-2">"Kamu cantik, bukan cuma di mata aku.”"</p>
+            </div>
+          </div>
+          <!--  Card 2 -->
+          <div class="snap-center flex-shrink-0 w-10/12 sm:w-1/2 md:w-1/3 lg:w-1/4" data-aos="fade-up" data-aos-delay="200">
+            <div class="bg-white p-6 rounded-lg shadow-lg text-center h-full">
+              <img src="img/image2.png" alt="Photo 2" class="w-full h-80 object-cover rounded-md mb-4">
+              <h3 class="text-2xl font-anime text-sakura">Photo 2</h3>
+              <p class="mt-2">"Senyummu selalu jadi favoritku."</p>
+            </div>
+          </div>
+          <!--  Card 3 -->
+          <div class="snap-center flex-shrink-0 w-10/12 sm:w-1/2 md:w-1/3 lg:w-1/4" data-aos="fade-up" data-aos-delay="300">
+            <div class="bg-white p-6 rounded-lg shadow-lg text-center h-full">
+              <img src="img/image3.png" alt="Photo 3" class="w-full h-80 object-cover rounded-md mb-4">
+              <h3 class="text-2xl font-anime text-sakura">Photo 3</h3>
+              <p class="mt-2">"Kamu adalah bintang di langitku."</p>
+            </div>
+          </div>
+          <!--  Card 4 -->
+          <div class="snap-center flex-shrink-0 w-10/12 sm:w-1/2 md:w-1/3 lg:w-1/4" data-aos="fade-up" data-aos-delay="400">
+            <div class="bg-white p-6 rounded-lg shadow-lg text-center h-full">
+              <img src="img/image4.png" alt="Photo 4" class="w-full h-80 object-cover rounded-md mb-4">
+              <h3 class="text-2xl font-anime text-sakura">Photo 4</h3>
+              <p class="mt-2">"Punya kamu adalah salah satu hal terbaik."</p>
+            </div>
+          </div>
+          <!--  Card 5 -->
+          <div class="snap-center flex-shrink-0 w-10/12 sm:w-1/2 md:w-1/3 lg:w-1/4" data-aos="fade-up" data-aos-delay="500">
+            <div class="bg-white p-6 rounded-lg shadow-lg text-center h-full">
+              <img src="img/image5.png" alt="Photo 5" class="w-full h-80 object-cover rounded-md mb-4">
+              <h3 class="text-2xl font-anime text-sakura">Photo 5</h3>
+              <p class="mt-2">"Cantiknya kamu nggak pernah gagal bikin aku jatuh cinta lagi. ❤️"</p>
+            </div>
+          </div>
+          <!-- Card 6 -->
+          <div class="snap-center flex-shrink-0 w-10/12 sm:w-1/2 md:w-1/3 lg:w-1/4" data-aos="fade-up" data-aos-delay="600">
+            <div class="bg-white p-6 rounded-lg shadow-lg text-center h-full">
+              <img src="img/image6.png" alt="Photo 6" class="w-full h-80 object-cover rounded-md mb-4">
+              <h3 class="text-2xl font-anime text-sakura">Photo 6</h3>
+              <p class="mt-2">"Senyummu sederhana, tapi selalu berhasil bikin hariku lebih indah."</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 5: The Gallery -->
+  <section class="my-16 md:my-24">
+    <h2 class="text-4xl md:text-5xl font-anime text-center mb-12" data-aos="fade-up">The Y.V.A. Collection</h2>
+    <p class="text-center text-lg -mt-8 mb-12">(Your Very-own Adventures)</p>
+    <div id="lightgallery" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <a href="img/1.png" data-aos="zoom-in" class="block w-full h-48 md:h-64">
+        <img src="img/1.png" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 1">
+      </a>
+      <a href="img/2.png" data-aos="zoom-in" data-aos-delay="100" class="block w-full h-48 md:h-64">
+        <img src="img/2.png" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 2">
+      </a>
+      <a href="img/3.png" data-aos="zoom-in" data-aos-delay="200" class="block w-full h-48 md:h-64">
+        <img src="img/3.png" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 3">
+      </a>
+      <a href="img/4.png" data-aos="zoom-in" data-aos-delay="300" class="block w-full h-48 md:h-64">
+        <img src="img/4.png" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 4">
+      </a>
+      <!-- Second Row of Photos -->
+      <a href="img/5.png" data-aos="zoom-in" data-aos-delay="400" class="block w-full h-48 md:h-64">
+        <img src="img/5.png" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 5">
+      </a>
+      <a href="img/6.png" data-aos="zoom-in" data-aos-delay="500" class="block w-full h-48 md:h-64">
+        <img src="img/6.png" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 6">
+      </a>
+      <a href="img/7.png" data-aos="zoom-in" data-aos-delay="600" class="block w-full h-48 md:h-64">
+        <img src="img/7.png" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 7">
+      </a>
+      <a href="img/8.png" data-aos="zoom-in" data-aos-delay="700" class="block w-full h-48 md:h-64">
+        <img src="img/8.png" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 8">
+      </a>
+      <!-- Third Row of Photos -->
+      <a href="img/9.png" data-aos="zoom-in" data-aos-delay="800" class="block w-full h-48 md:h-64">
+        <img src="img/9.png" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 9">
+      </a>
+      <a href="img/10.png" data-aos="zoom-in" data-aos-delay="900" class="block w-full h-48 md:h-64">
+        <img src="img/10.png" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 10">
+      </a>
+      <a href="img/11.png" data-aos="zoom-in" data-aos-delay="1000" class="block w-full h-48 md:h-64">
+        <img src="img/11.png" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 11">
+      </a>
+      <a href="img/12.png" data-aos="zoom-in" data-aos-delay="1100" class="block w-full h-48 md:h-64">
+        <img src="img/12.png" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 12">
+      </a>
+    </div>
+  </section>
+
+    <!-- Section 6: Finale -->
+    <section class="my-16 md:my-24" data-aos="fade-up">
+        <h2 class="text-4xl md:text-5xl font-anime text-center mb-4">Happy Birthday Keysha Maurell Saidina</h2>
+        <div class="max-w-4xl mx-auto rounded-lg shadow-2xl overflow-hidden bg-navy">
+    </section>
+
+    <!-- Section 7: Minigame -->
+    <section class="my-16 md:my-24 text-center" data-aos="fade-up">
+      <h2 class="text-4xl md:text-5xl font-anime mb-4">Satu Kejutan Lagi...</h2>
+      <p class="text-lg mb-8">Ada puzzle kecil buat kamu, coba susun sampai selesai yuk! 🧩</p>
+      <button id="open-puzzle-btn" class="bg-sakura hover:bg-pink-300 text-white font-semibold text-lg px-8 py-4 rounded-full shadow-lg transition-transform hover:scale-105 active:scale-95">
+        🧩 Main Puzzle Yuk!
+      </button>
+    </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="bg-navy text-white p-8 text-center">
+  <p>Enjoy your day to the fullest.</p>
+  <p class="text-sm opacity-70 mt-2">Hope you liked it...</p>
+</footer>
+
+<!-- Puzzle Minigame Modal -->
+<div id="puzzle-modal" class="fixed inset-0 z-[9998] hidden items-center justify-center bg-black/50 px-4 py-6 overflow-y-auto">
+  <div class="bg-white rounded-3xl shadow-2xl p-6 md:p-8 w-full max-w-md text-center border-4 border-white relative my-auto">
+    <button id="close-puzzle-btn" class="absolute top-3 right-4 text-2xl text-gray-400 hover:text-gray-600" aria-label="Tutup">&times;</button>
+    <h2 class="font-anime text-2xl md:text-3xl text-sakura mb-1">Susun Puzzle-nya!</h2>
+    <p class="text-sm text-gray-500 mb-4">Klik potongan gambarnya, terus klik kotak tujuan buat naruh~</p>
+
+    <!-- Contoh gambar yang sudah jadi -->
+    <div class="mb-4 flex flex-col items-center">
+      <p class="text-xs text-gray-400 mb-1">Contoh gambar jadinya:</p>
+      <button type="button" id="puzzle-reference-btn" class="inline-block">
+        <img id="puzzle-reference-img" src="img/puzzle.png" alt="Contoh gambar puzzle" class="max-h-28 w-auto object-contain rounded-lg border-2 border-pink-200 shadow-sm mx-auto">
+      </button>
+      <p class="text-[11px] text-gray-400 mt-1">(klik gambarnya buat liat lebih jelas)</p>
+    </div>
+
+    <!-- Kotak-kotak tujuan -->
+    <div id="puzzle-grid" class="grid grid-cols-4 gap-1 mx-auto w-full max-w-[320px] aspect-square rounded-xl overflow-hidden shadow-inner bg-pink-50 mb-4"></div>
+
+    <!-- Tempat potongan yang belum ditaruh -->
+    <p class="text-xs text-gray-400 mb-2">Potongan gambar (klik lalu taruh di kotak):</p>
+    <div id="puzzle-tray" class="grid grid-cols-4 gap-1 mx-auto w-full max-w-[320px] mb-5"></div>
+
+    <button id="shuffle-puzzle-btn" class="bg-navy text-white font-semibold px-6 py-2 rounded-full shadow-md hover:opacity-90 transition">
+      🔀 Acak Ulang
+    </button>
+  </div>
+</div>
+
+<!-- Puzzle Reference Lightbox: ukuran popup ngikutin rasio gambar aslinya -->
+<div id="puzzle-reference-lightbox" class="fixed inset-0 z-[10002] hidden items-center justify-center bg-black/70 px-4 py-6">
+  <div class="relative">
+    <button id="close-reference-lightbox-btn" class="absolute -top-3 -right-3 bg-white text-gray-600 rounded-full w-8 h-8 flex items-center justify-center shadow-lg text-xl leading-none" aria-label="Tutup">&times;</button>
+    <img src="img/puzzle.png" alt="Contoh gambar puzzle - ukuran penuh" class="max-w-[90vw] max-h-[85vh] w-auto h-auto rounded-xl shadow-2xl block">
+  </div>
+</div>
+
+<!-- Puzzle Success Popup -->
+<div id="puzzle-success-popup" class="fixed inset-0 z-[10001] hidden items-center justify-center bg-black/40 px-4">
+  <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-10 w-full max-w-sm text-center border-4 border-white animate-pop">
+    <div class="text-6xl mb-3">🧩🎉🥳</div>
+    <h2 class="font-anime text-2xl md:text-3xl text-sakura mb-2">Yeay, Selesai!</h2>
+    <p class="text-gray-600 mb-6">Kamu berhasil nyusun puzzlenya! Sama kayak puzzle ini, semoga hidup kamu juga selalu tersusun rapi dan indah pada waktunya. Happy birthday, sayang! 💗</p>
+    <button id="close-puzzle-success-btn" class="bg-sakura hover:bg-pink-300 text-white font-semibold px-6 py-2 rounded-full shadow-md transition">
+      Kirim Makasih via WA 💬
+    </button>
+  </div>
+</div>
+
+<!-- These scripts are for the animations and photo gallery -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.1/lightgallery.min.js"></script>
+
+<!-- Link to your new external JavaScript file -->
+<script src="script.js"></script>
+</body>
+</html>
