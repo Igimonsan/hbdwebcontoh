@@ -78,8 +78,8 @@
     // Nomor & pesan WhatsApp yang dikirim pas tombol "Makasih!" diklik.
     // Nomor pakai kode negara TANPA tanda + dan TANPA spasi/strip.
     // Contoh: nomor 0812-3456-7890 jadi "6281234567890"
-    const WA_PHONE_NUMBER = '6281234567890'; // <-- GANTI NOMOR WHATSAPP DI SINI
-    const WA_MESSAGE = 'Makasih ya puzzle sama websitenya, aku suka banget! 🥰🎉'; // <-- GANTI PESANNYA DI SINI
+    const WA_PHONE_NUMBER = '6283862759162'; // <-- GANTI NOMOR WHATSAPP DI SINI
+    const WA_MESSAGE = 'Makasih yaaa! 🥰🎉'; // <-- GANTI PESANNYA DI SINI
 
     const openBtn = document.getElementById('open-puzzle-btn');
     const closeBtn = document.getElementById('close-puzzle-btn');
