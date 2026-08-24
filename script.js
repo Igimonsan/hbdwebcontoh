@@ -124,7 +124,7 @@
 (function () {
     const GRID_SIZE = 4; // 4x4 = 16 potongan
     const TOTAL = GRID_SIZE * GRID_SIZE;
-    const IMAGE_SRC = 'img/puzzle.png'; // <-- GANTI GAMBAR PUZZLE DI SINI
+    const IMAGE_SRC = 'img/puzzle.jpg'; // <-- GANTI GAMBAR PUZZLE DI SINI
 
     // Nomor & pesan WhatsApp yang dikirim pas tombol "Makasih!" diklik.
     // Nomor pakai kode negara TANPA tanda + dan TANPA spasi/strip.
