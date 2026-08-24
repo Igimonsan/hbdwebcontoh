@@ -23,6 +23,15 @@
   <meta property="og:image" content="https://placehold.co/1200x630/87CEEB/FFFFFF?text=A+Surprise+For+[Name]">
 </head>
 <body>
+  <!-- Loading Screen -->
+<div id="loading-screen" class="fixed inset-0 z-[999999] flex flex-col items-center justify-center bg-gradient-to-br from-pink-200 via-rose-100 to-sky-100 px-4">
+  <div class="text-5xl mb-4 animate-bounce">🌸</div>
+  <p class="font-anime text-lg text-sakura mb-4">Memuat...</p>
+  <div class="w-64 max-w-[80vw] h-3 bg-white/70 rounded-full overflow-hidden shadow-inner">
+    <div id="loading-progress-bar" class="h-full bg-sakura rounded-full transition-all duration-200" style="width:0%"></div>
+  </div>
+  <p id="loading-progress-text" class="text-sm text-gray-500 mt-2">0%</p>
+</div>
 <!-- PIN Gate Overlay: muncul pertama kali sebelum website kebuka -->
 <div id="pin-gate" class="fixed inset-0 z-[9999] flex items-center justify-center bg-gradient-to-br from-pink-200 via-rose-100 to-sky-100 px-4">
   <div id="pin-gate-box" class="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-8 md:p-10 w-full max-w-sm text-center border-4 border-white">
@@ -42,7 +51,7 @@
 
     <p id="pin-error-msg" class="text-sm text-red-400 mb-3 h-5"></p>
 
-    <button id="pin-submit-btn" class="w-full bg-sakura hover:bg-pink-300 text-white font-semibold py-3 rounded-xl shadow-md transition-transform hover:scale-105 active:scale-95">
+    <button id="pin-submit-btn" class="w-full bg-sakura hover:bg-pink-300 text-black font-semibold py-3 rounded-xl shadow-md transition-transform hover:scale-105 active:scale-95">
       Buka 🔑
     </button>
   </div>
@@ -98,19 +107,24 @@ Selamat ulang tahun yaa! Semoga di umur yang baru ini kamu selalu diberikan kese
 <!-- Main Content -->
 <main class="container mx-auto p-6 md:p-12">
 
-  <!-- Section 2: A Letter For You -->
-  <section class="my-16 md:my-24 max-w-3xl mx-auto text-center" data-aos="fade-up">
-    <h2 class="text-4xl md:text-5xl font-anime text-sakura mb-8 drop-shadow-sm">A Special Message For You</h2>
-    <div class="text-left text-lg leading-relaxed space-y-4 bg-white p-8 rounded-lg shadow-lg">
-      <!-- TODO: Write your personal letter here -->
-      <p>Hey Keysha Maurell Saidina,</p>
-      <p>
-HAII KAMU KEYSHA MAURELL Happy birthday to youu 🎂, semoga dengan bertambahnya usia mu ini hal-hal mengenai kebaikan dan kebahagiaan selalu menanti mu, I pray and hope that all your wishes will come true sayang😃, maaf jika kesalahan-kesalahan yang ku perbuat banyak menyakiti mu dan aku sangat berharap di usia mu yg ke 17 inii hal-hal tentang kita ber2 selalu berjalan dengan baik dan bahagia selalu kedepannya and, I pray that I can be with you forever and achieve success together, I love you deeply beyond measure</p>
-      <p class="text-right mt-8">
-        Yusuf Efendy<br>
-      </p>
+<!-- Section 2: A Letter For You -->
+<section class="my-16 md:my-24 max-w-3xl mx-auto text-center" data-aos="fade-up">
+  <h2 class="text-4xl md:text-5xl font-anime text-sakura mb-4 drop-shadow-sm">A Special Message For You</h2>
+  <p class="text-base text-gray-500 mb-8">Klik kartunya buat baca pesannya~ 💌</p>
+
+  <div id="greeting-card" class="greeting-card mx-auto">
+    <div class="card-side card-left"></div>
+    <div class="card-side card-right"></div>
+    <div class="card-back">
+      <img src="img/ucapan.jpg" alt="Foto kenangan" class="card-photo">
+      <div class="card-message text-left">
+        <p>Hey Keysha Maurell Saidina,</p>
+        <p class="mt-3">HAII KAMU KEYSHA MAURELL Happy birthday to youu 🎂, semoga dengan bertambahnya usia mu ini hal-hal mengenai kebaikan dan kebahagiaan selalu menanti mu, I pray and hope that all your wishes will come true sayang😃, maaf jika kesalahan-kesalahan yang ku perbuat banyak menyakiti mu dan aku sangat berharap di usia mu yg ke 17 inii hal-hal tentang kita ber2 selalu berjalan dengan baik dan bahagia selalu kedepannya and, I pray that I can be with you forever and achieve success together, I love you deeply beyond measure</p>
+        <p class="text-right mt-4">Yusuf Efendy</p>
+      </div>
     </div>
-  </section>
+  </div>
+</section>
 
   <!-- Section 3: The Timeline -->
   <section class="my-16 md:my-24">
@@ -119,7 +133,7 @@ HAII KAMU KEYSHA MAURELL Happy birthday to youu 🎂, semoga dengan bertambahnya
       <!-- Timeline Item 1 -->
       <div class="flex flex-col md:flex-row items-center gap-8" data-aos="fade-right">
         <!-- TODO: Replace with your photo -->
-        <img src="img/img1.png" alt="Add photo 1" class="w-full md:w-1/2 rounded-lg shadow-xl border-4 border-white"> <!--replce img1.png with name of your img-->
+        <img src="img/img1.jpg" alt="Add photo 1" class="w-full md:w-1/2 rounded-lg shadow-xl border-4 border-white"> <!--replce img1.jpg with name of your img-->
         <div class="text-center md:text-left">
           <!-- TODO: Customize the date and story -->
           <h3 class="text-2xl font-anime text-sakura">Our first Meeting</h3>
@@ -130,7 +144,7 @@ HAII KAMU KEYSHA MAURELL Happy birthday to youu 🎂, semoga dengan bertambahnya
       <!-- Timeline Item 2 -->
       <div class="flex flex-col md:flex-row-reverse items-center gap-8" data-aos="fade-left">
         <!-- TODO: Replace with your photo -->
-        <img src="img/img2.png" alt="Add photo 2" class="w-full md:w-1/2 rounded-lg shadow-xl border-4 border-white">
+        <img src="img/img2.jpg" alt="Add photo 2" class="w-full md:w-1/2 rounded-lg shadow-xl border-4 border-white">
         <div class="text-center md:text-right">
           <!-- TODO: Customize the date and story -->
           <h3 class="text-2xl font-anime text-sakura">Part 2</h3>
@@ -140,7 +154,7 @@ HAII KAMU KEYSHA MAURELL Happy birthday to youu 🎂, semoga dengan bertambahnya
       </div>
       <!-- Timeline Item 3 (NEW) -->
       <div class="flex flex-col md:flex-row items-center gap-8" data-aos="fade-right">
-        <img src="img/img3.png" alt="Add photo 3" class="w-full md:w-1/2 rounded-lg shadow-xl border-4 border-white">
+        <img src="img/img3.jpg" alt="Add photo 3" class="w-full md:w-1/2 rounded-lg shadow-xl border-4 border-white">
         <div class="text-center md:text-left">
           <h3 class="text-2xl font-anime text-sakura">Part3</h3>
           <p class="mt-2 text-lg">Selamat bertambah usia, kesayanganku. Aku berdoa semoga hatimu selalu dilapangkan, dijauhkan dari rasa lelah yang berlebihan, dan dipenuhi rasa tenang serta kebahagiaan setiap harinya. Tetap jadi pribadi hebat yang selalu aku banggakan, ya.</p>
@@ -149,7 +163,7 @@ HAII KAMU KEYSHA MAURELL Happy birthday to youu 🎂, semoga dengan bertambahnya
       </div>
       <!-- Timeline Item 4 (NEW) -->
       <div class="flex flex-col md:flex-row-reverse items-center gap-8" data-aos="fade-left">
-        <img src="img/img4.png" alt="Add photo4" class="w-full md:w-1/2 rounded-lg shadow-xl border-4 border-white">
+        <img src="img/img4.jpg" alt="Add photo4" class="w-full md:w-1/2 rounded-lg shadow-xl border-4 border-white">
         <div class="text-center md:text-right">
           <h3 class="text-2xl font-anime text-sakura">Part 4</h3>
           <p class="mt-2 text-lg">Selamat ulang tahun untuk orang yang paling berarti di hidupku. Semoga umur yang baru ini membawa kamu pada versi terbaik dirimu, dan semoga kita selalu diberi kesempatan untuk terus tumbuh, berproses, serta merayakan hari-hari baik bersama ke depannya.</p>
@@ -177,7 +191,7 @@ HAII KAMU KEYSHA MAURELL Happy birthday to youu 🎂, semoga dengan bertambahnya
           <!--  Card 1 -->
           <div class="snap-center flex-shrink-0 w-10/12 sm:w-1/2 md:w-1/3 lg:w-1/4" data-aos="fade-up" data-aos-delay="100">
             <div class="bg-white p-6 rounded-lg shadow-lg text-center h-full">
-              <img src="img/image1.png" alt="Photo 1" class="w-full h-80 object-cover rounded-md mb-4"> 
+              <img src="img/image1.jpg" alt="Photo 1" class="w-full h-80 object-cover rounded-md mb-4"> 
               <h3 class="text-2xl font-anime text-sakura">Photo 1</h3>
               <p class="mt-2">"Kamu cantik, bukan cuma di mata aku.”"</p>
             </div>
@@ -185,7 +199,7 @@ HAII KAMU KEYSHA MAURELL Happy birthday to youu 🎂, semoga dengan bertambahnya
           <!--  Card 2 -->
           <div class="snap-center flex-shrink-0 w-10/12 sm:w-1/2 md:w-1/3 lg:w-1/4" data-aos="fade-up" data-aos-delay="200">
             <div class="bg-white p-6 rounded-lg shadow-lg text-center h-full">
-              <img src="img/image2.png" alt="Photo 2" class="w-full h-80 object-cover rounded-md mb-4">
+              <img src="img/image2.jpg" alt="Photo 2" class="w-full h-80 object-cover rounded-md mb-4">
               <h3 class="text-2xl font-anime text-sakura">Photo 2</h3>
               <p class="mt-2">"Senyummu selalu jadi favoritku."</p>
             </div>
@@ -193,7 +207,7 @@ HAII KAMU KEYSHA MAURELL Happy birthday to youu 🎂, semoga dengan bertambahnya
           <!--  Card 3 -->
           <div class="snap-center flex-shrink-0 w-10/12 sm:w-1/2 md:w-1/3 lg:w-1/4" data-aos="fade-up" data-aos-delay="300">
             <div class="bg-white p-6 rounded-lg shadow-lg text-center h-full">
-              <img src="img/image3.png" alt="Photo 3" class="w-full h-80 object-cover rounded-md mb-4">
+              <img src="img/image3.jpg" alt="Photo 3" class="w-full h-80 object-cover rounded-md mb-4">
               <h3 class="text-2xl font-anime text-sakura">Photo 3</h3>
               <p class="mt-2">"Kamu adalah bintang di langitku."</p>
             </div>
@@ -201,7 +215,7 @@ HAII KAMU KEYSHA MAURELL Happy birthday to youu 🎂, semoga dengan bertambahnya
           <!--  Card 4 -->
           <div class="snap-center flex-shrink-0 w-10/12 sm:w-1/2 md:w-1/3 lg:w-1/4" data-aos="fade-up" data-aos-delay="400">
             <div class="bg-white p-6 rounded-lg shadow-lg text-center h-full">
-              <img src="img/image4.png" alt="Photo 4" class="w-full h-80 object-cover rounded-md mb-4">
+              <img src="img/image4.jpg" alt="Photo 4" class="w-full h-80 object-cover rounded-md mb-4">
               <h3 class="text-2xl font-anime text-sakura">Photo 4</h3>
               <p class="mt-2">"Punya kamu adalah salah satu hal terbaik."</p>
             </div>
@@ -209,7 +223,7 @@ HAII KAMU KEYSHA MAURELL Happy birthday to youu 🎂, semoga dengan bertambahnya
           <!--  Card 5 -->
           <div class="snap-center flex-shrink-0 w-10/12 sm:w-1/2 md:w-1/3 lg:w-1/4" data-aos="fade-up" data-aos-delay="500">
             <div class="bg-white p-6 rounded-lg shadow-lg text-center h-full">
-              <img src="img/image5.png" alt="Photo 5" class="w-full h-80 object-cover rounded-md mb-4">
+              <img src="img/image5.jpg" alt="Photo 5" class="w-full h-80 object-cover rounded-md mb-4">
               <h3 class="text-2xl font-anime text-sakura">Photo 5</h3>
               <p class="mt-2">"Cantiknya kamu nggak pernah gagal bikin aku jatuh cinta lagi. ❤️"</p>
             </div>
@@ -217,7 +231,7 @@ HAII KAMU KEYSHA MAURELL Happy birthday to youu 🎂, semoga dengan bertambahnya
           <!-- Card 6 -->
           <div class="snap-center flex-shrink-0 w-10/12 sm:w-1/2 md:w-1/3 lg:w-1/4" data-aos="fade-up" data-aos-delay="600">
             <div class="bg-white p-6 rounded-lg shadow-lg text-center h-full">
-              <img src="img/image6.png" alt="Photo 6" class="w-full h-80 object-cover rounded-md mb-4">
+              <img src="img/image6.jpg" alt="Photo 6" class="w-full h-80 object-cover rounded-md mb-4">
               <h3 class="text-2xl font-anime text-sakura">Photo 6</h3>
               <p class="mt-2">"Senyummu sederhana, tapi selalu berhasil bikin hariku lebih indah."</p>
             </div>
@@ -232,43 +246,43 @@ HAII KAMU KEYSHA MAURELL Happy birthday to youu 🎂, semoga dengan bertambahnya
     <h2 class="text-4xl md:text-5xl font-anime text-center mb-12" data-aos="fade-up">The Y.V.A. Collection</h2>
     <p class="text-center text-lg -mt-8 mb-12">(Your Very-own Adventures)</p>
     <div id="lightgallery" class="grid grid-cols-2 md:grid-cols-4 gap-4">
-      <a href="img/1.png" data-aos="zoom-in" class="block w-full h-48 md:h-64">
-        <img src="img/1.png" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 1">
+      <a href="img/1.jpg" data-aos="zoom-in" class="block w-full h-48 md:h-64">
+        <img src="img/1.jpg" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 1">
       </a>
-      <a href="img/2.png" data-aos="zoom-in" data-aos-delay="100" class="block w-full h-48 md:h-64">
-        <img src="img/2.png" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 2">
+      <a href="img/2.jpg" data-aos="zoom-in" data-aos-delay="100" class="block w-full h-48 md:h-64">
+        <img src="img/2.jpg" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 2">
       </a>
-      <a href="img/3.png" data-aos="zoom-in" data-aos-delay="200" class="block w-full h-48 md:h-64">
-        <img src="img/3.png" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 3">
+      <a href="img/3.jpg" data-aos="zoom-in" data-aos-delay="200" class="block w-full h-48 md:h-64">
+        <img src="img/3.jpg" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 3">
       </a>
-      <a href="img/4.png" data-aos="zoom-in" data-aos-delay="300" class="block w-full h-48 md:h-64">
-        <img src="img/4.png" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 4">
+      <a href="img/4.jpg" data-aos="zoom-in" data-aos-delay="300" class="block w-full h-48 md:h-64">
+        <img src="img/4.jpg" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 4">
       </a>
       <!-- Second Row of Photos -->
-      <a href="img/5.png" data-aos="zoom-in" data-aos-delay="400" class="block w-full h-48 md:h-64">
-        <img src="img/5.png" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 5">
+      <a href="img/5.jpg" data-aos="zoom-in" data-aos-delay="400" class="block w-full h-48 md:h-64">
+        <img src="img/5.jpg" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 5">
       </a>
-      <a href="img/6.png" data-aos="zoom-in" data-aos-delay="500" class="block w-full h-48 md:h-64">
-        <img src="img/6.png" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 6">
+      <a href="img/6.jpg" data-aos="zoom-in" data-aos-delay="500" class="block w-full h-48 md:h-64">
+        <img src="img/6.jpg" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 6">
       </a>
-      <a href="img/7.png" data-aos="zoom-in" data-aos-delay="600" class="block w-full h-48 md:h-64">
-        <img src="img/7.png" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 7">
+      <a href="img/7.jpg" data-aos="zoom-in" data-aos-delay="600" class="block w-full h-48 md:h-64">
+        <img src="img/7.jpg" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 7">
       </a>
-      <a href="img/8.png" data-aos="zoom-in" data-aos-delay="700" class="block w-full h-48 md:h-64">
-        <img src="img/8.png" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 8">
+      <a href="img/8.jpg" data-aos="zoom-in" data-aos-delay="700" class="block w-full h-48 md:h-64">
+        <img src="img/8.jpg" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 8">
       </a>
       <!-- Third Row of Photos -->
-      <a href="img/9.png" data-aos="zoom-in" data-aos-delay="800" class="block w-full h-48 md:h-64">
-        <img src="img/9.png" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 9">
+      <a href="img/9.jpg" data-aos="zoom-in" data-aos-delay="800" class="block w-full h-48 md:h-64">
+        <img src="img/9.jpg" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 9">
       </a>
-      <a href="img/10.png" data-aos="zoom-in" data-aos-delay="900" class="block w-full h-48 md:h-64">
-        <img src="img/10.png" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 10">
+      <a href="img/10.jpg" data-aos="zoom-in" data-aos-delay="900" class="block w-full h-48 md:h-64">
+        <img src="img/10.jpg" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 10">
       </a>
-      <a href="img/11.png" data-aos="zoom-in" data-aos-delay="1000" class="block w-full h-48 md:h-64">
-        <img src="img/11.png" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 11">
+      <a href="img/11.jpg" data-aos="zoom-in" data-aos-delay="1000" class="block w-full h-48 md:h-64">
+        <img src="img/11.jpg" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 11">
       </a>
-      <a href="img/12.png" data-aos="zoom-in" data-aos-delay="1100" class="block w-full h-48 md:h-64">
-        <img src="img/12.png" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 12">
+      <a href="img/12.jpg" data-aos="zoom-in" data-aos-delay="1100" class="block w-full h-48 md:h-64">
+        <img src="img/12.jpg" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 w-full h-full object-cover border-4 border-white" alt="Memory 12">
       </a>
     </div>
   </section>
@@ -307,7 +321,7 @@ HAII KAMU KEYSHA MAURELL Happy birthday to youu 🎂, semoga dengan bertambahnya
     <div class="mb-4 flex flex-col items-center">
       <p class="text-xs text-gray-400 mb-1">Contoh gambar jadinya:</p>
       <button type="button" id="puzzle-reference-btn" class="inline-block">
-        <img id="puzzle-reference-img" src="img/puzzle.png" alt="Contoh gambar puzzle" class="max-h-28 w-auto object-contain rounded-lg border-2 border-pink-200 shadow-sm mx-auto">
+        <img id="puzzle-reference-img" src="img/puzzle.jpg" alt="Contoh gambar puzzle" class="max-h-28 w-auto object-contain rounded-lg border-2 border-pink-200 shadow-sm mx-auto">
       </button>
       <p class="text-[11px] text-gray-400 mt-1">(klik gambarnya buat liat lebih jelas)</p>
     </div>
@@ -329,7 +343,7 @@ HAII KAMU KEYSHA MAURELL Happy birthday to youu 🎂, semoga dengan bertambahnya
 <div id="puzzle-reference-lightbox" class="fixed inset-0 z-[10002] hidden items-center justify-center bg-black/70 px-4 py-6">
   <div class="relative">
     <button id="close-reference-lightbox-btn" class="absolute -top-3 -right-3 bg-white text-gray-600 rounded-full w-8 h-8 flex items-center justify-center shadow-lg text-xl leading-none" aria-label="Tutup">&times;</button>
-    <img src="img/puzzle.png" alt="Contoh gambar puzzle - ukuran penuh" class="max-w-[90vw] max-h-[85vh] w-auto h-auto rounded-xl shadow-2xl block">
+    <img src="img/puzzle.jpg" alt="Contoh gambar puzzle - ukuran penuh" class="max-w-[90vw] max-h-[85vh] w-auto h-auto rounded-xl shadow-2xl block">
   </div>
 </div>
 

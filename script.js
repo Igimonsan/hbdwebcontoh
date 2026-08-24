@@ -1,4 +1,55 @@
 /* =========================================
+   LOADING SCREEN — nunggu semua gambar kebuka,
+   ada progress bar
+========================================= */
+(function () {
+    const loadingScreen = document.getElementById('loading-screen');
+    const progressBar = document.getElementById('loading-progress-bar');
+    const progressText = document.getElementById('loading-progress-text');
+
+    if (!loadingScreen) return;
+
+    const images = Array.from(document.images); // semua <img> di halaman
+    const total = images.length;
+    let loaded = 0;
+
+    function updateProgress() {
+        loaded++;
+        const percent = total === 0 ? 100 : Math.round((loaded / total) * 100);
+        if (progressBar) progressBar.style.width = percent + '%';
+        if (progressText) progressText.textContent = percent + '%';
+        if (loaded >= total) finishLoading();
+    }
+
+    function finishLoading() {
+        setTimeout(() => {
+            loadingScreen.classList.add('loading-hidden');
+        }, 300); // jeda dikit biar progress 100% keliatan dulu
+    }
+
+    if (total === 0) {
+        finishLoading();
+    } else {
+        images.forEach((img) => {
+            if (img.complete) {
+                updateProgress();
+            } else {
+                img.addEventListener('load', updateProgress);
+                img.addEventListener('error', updateProgress); // tetep lanjut walau ada gambar gagal
+            }
+        });
+    }
+
+    // Jaga-jaga: kalau koneksi lambat banget, paksa tutup abis 8 detik
+    setTimeout(() => {
+        if (!loadingScreen.classList.contains('loading-hidden')) {
+            if (progressBar) progressBar.style.width = '100%';
+            if (progressText) progressText.textContent = '100%';
+            finishLoading();
+        }
+    }, 8000);
+})();
+/* =========================================
    PIN GATE — Masukin PIN buat buka website
    Mau ganti PIN-nya? Tinggal ubah nilai di bawah ini!
 ========================================= */
@@ -236,6 +287,18 @@
             }
         });
     }
+})();
+
+/* =========================================
+   KARTU UCAPAN — klik buat buka/tutup
+========================================= */
+(function () {
+    const card = document.getElementById('greeting-card');
+    if (!card) return;
+
+    card.addEventListener('click', () => {
+        card.classList.toggle('is-open');
+    });
 })();
 
 document.addEventListener('DOMContentLoaded', function() {

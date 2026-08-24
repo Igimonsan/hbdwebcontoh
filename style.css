@@ -239,3 +239,122 @@ body.pin-locked {
     aspect-ratio: 1 / 1;
 }
 
+/* ============================= */
+/* KARTU UCAPAN (klik buat buka)  */
+/* ============================= */
+.greeting-card {
+    width: min(320px, 85vw);
+    aspect-ratio: 9 / 16;
+    height: auto;
+    position: relative;
+    perspective: 1200px;
+    cursor: pointer;
+}
+
+.card-side {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    background-color: #FFB7C5;
+    transition: transform 0.9s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,.15);
+}
+
+.card-left {
+    left: 0;
+    border-radius: 16px 0 0 16px;
+    transform-origin: left;
+    background-image: url('img/pintu.png');
+    background-size: 200% 100%;
+    background-position: left center;
+    background-repeat: no-repeat;
+}
+
+.card-right {
+    right: 0;
+    border-radius: 0 16px 16px 0;
+    transform-origin: right;
+    background-image: url('img/pintu.png');
+    background-size: 200% 100%;
+    background-position: right center;
+    background-repeat: no-repeat;
+}
+
+.card-back {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 20px;
+    background: #fff5f7;
+    border: 3px solid #FFB7C5;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0,0,0,.25);
+    z-index: -1;
+    transform: translateZ(-260px);
+    transition: transform 0.9s ease; /* UBAH: hapus bagian z-index dari sini */
+    overflow: hidden;
+}
+.card-photo {
+    width: 55%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 3px solid #FFB7C5;
+    flex-shrink: 0;
+    opacity: 0;                      /* BARU */
+    transition: opacity 0.5s ease;   /* BARU */
+}
+
+.card-message {
+    color: #2c3e50;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    overflow-y: auto;
+    max-height: 220px;
+    padding-right: 4px;
+    opacity: 0;                      /* BARU */
+    transition: opacity 0.5s ease;   /* BARU */
+}
+
+.greeting-card.is-open .card-message {
+    opacity: 1;
+    transition-delay: 0.9s; /* UBAH: nunggu pintu bener2 kebuka penuh (0.9s) */
+}
+
+.greeting-card.is-open .card-photo {
+    opacity: 1;
+    transition-delay: 1.15s; /* UBAH: foto nyusul abis pesan mulai muncul */
+}
+/* Status kebuka, class ini ditoggle lewat JS pas kartu diklik */
+.greeting-card.is-open .card-left {
+    transform: rotateY(-140deg);
+}
+
+.greeting-card.is-open .card-right {
+    transform: rotateY(140deg);
+}
+
+.greeting-card.is-open .card-back {
+    transform: translateZ(0);
+    z-index: 1;
+    transition: transform 0.9s ease, z-index 0s 0.9s; /* BARU: delay cuma berlaku pas buka */
+}
+
+
+/* ============================= */
+/* LOADING SCREEN */
+/* ============================= */
+#loading-screen {
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+#loading-screen.loading-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
