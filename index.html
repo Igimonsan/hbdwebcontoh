@@ -106,7 +106,17 @@ Selamat ulang tahun yaa! Semoga di umur yang baru ini kamu selalu diberikan kese
 
 <!-- Main Content -->
 <main class="container mx-auto p-6 md:p-12">
-
+<!-- Section: Kalender Tanggal Spesial -->
+<section class="my-16 md:my-24 text-center" data-aos="fade-up">
+  <h2 class="text-4xl md:text-5xl font-anime mb-8">Tanggal Spesial</h2>
+  <div id="birthday-calendar" class="calendar-card mx-auto">
+    <div class="calendar-header" id="calendar-month-label"></div>
+    <div class="calendar-weekdays">
+      <span>Min</span><span>Sen</span><span>Sel</span><span>Rab</span><span>Kam</span><span>Jum</span><span>Sab</span>
+    </div>
+    <div id="calendar-grid" class="calendar-grid"></div>
+  </div>
+</section>
 <!-- Section 2: A Letter For You -->
 <section class="my-16 md:my-24 max-w-3xl mx-auto text-center" data-aos="fade-up">
   <h2 class="text-4xl md:text-5xl font-anime text-sakura mb-4 drop-shadow-sm">A Special Message For You</h2>
@@ -319,12 +329,15 @@ Selamat ulang tahun yaa! Semoga di umur yang baru ini kamu selalu diberikan kese
 
     <!-- Contoh gambar yang sudah jadi -->
     <div class="mb-4 flex flex-col items-center">
-      <p class="text-xs text-gray-400 mb-1">Contoh gambar jadinya:</p>
-      <button type="button" id="puzzle-reference-btn" class="inline-block">
-        <img id="puzzle-reference-img" src="img/puzzle.jpg" alt="Contoh gambar puzzle" class="max-h-28 w-auto object-contain rounded-lg border-2 border-pink-200 shadow-sm mx-auto">
-      </button>
-      <p class="text-[11px] text-gray-400 mt-1">(klik gambarnya buat liat lebih jelas)</p>
-    </div>
+  <p class="text-xs text-gray-400 mb-1">Contoh gambar jadinya:</p>
+  <div id="puzzle-scratch-wrap" class="relative inline-block rounded-lg overflow-hidden border-2 border-pink-200 shadow-sm">
+    <button type="button" id="puzzle-reference-btn" class="block">
+      <img id="puzzle-reference-img" src="img/puzzle.jpg" alt="Contoh gambar puzzle" class="max-h-28 w-auto object-contain block mx-auto">
+    </button>
+    <canvas id="puzzle-scratch-canvas" class="absolute inset-0 w-full h-full cursor-pointer"></canvas>
+  </div>
+  <p id="puzzle-scratch-hint" class="text-[11px] text-gray-400 mt-1">✨ Gosok gambarnya buat liat contohnya ✨</p>
+</div>
 
     <!-- Kotak-kotak tujuan -->
     <div id="puzzle-grid" class="grid grid-cols-4 gap-1 mx-auto w-full max-w-[320px] aspect-square rounded-xl overflow-hidden shadow-inner bg-pink-50 mb-4"></div>

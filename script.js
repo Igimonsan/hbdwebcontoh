@@ -87,11 +87,67 @@
         input.value = '';
         input.focus();
     }
+    
+    function spawnConfettiBurst() {
+    const emojis = ['🌸', '🎉', '✨', '💗', '🎊'];
+    for (let i = 0; i < 28; i++) {
+        const piece = document.createElement('span');
+        piece.className = 'confetti-piece';
+        piece.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 120 + Math.random() * 160;
+        piece.style.setProperty('--tx', `${Math.cos(angle) * distance}px`);
+        piece.style.setProperty('--ty', `${Math.sin(angle) * distance - 40}px`);
+        piece.style.setProperty('--rot', `${Math.random() * 360 - 180}deg`);
+        piece.style.animationDelay = `${Math.random() * 0.15}s`;
+        document.body.appendChild(piece);
+        setTimeout(() => piece.remove(), 1400);
+    }
+}
+
+/* =========================================
+   GALLERY — foto awalnya blur, tap buat reveal
+========================================= */
+(function () {
+    const gallery = document.getElementById('lightgallery');
+    if (!gallery) return;
+
+    const items = Array.from(gallery.querySelectorAll('a'));
+
+    items.forEach((item) => {
+        const img = item.querySelector('img');
+        if (!img) return;
+
+        item.classList.add('gallery-item');
+        img.classList.add('gallery-photo-blurred');
+
+        const hint = document.createElement('span');
+        hint.className = 'gallery-tap-hint';
+        hint.textContent = '👆 Tap buat lihat';
+        item.appendChild(hint);
+
+        let revealed = false;
+
+        item.addEventListener('click', (e) => {
+            if (!revealed) {
+                // Tap pertama: cuma buka blur-nya, belum buka lightbox
+                e.preventDefault();
+                e.stopPropagation();
+                img.classList.remove('gallery-photo-blurred');
+                img.classList.add('gallery-photo-revealed');
+                hint.classList.add('hint-hidden');
+                revealed = true;
+            }
+            // Tap kedua dst: lanjut buka lightbox seperti biasa
+        });
+    });
+})();
 
     function checkPin() {
         const value = input.value.trim();
         if (value === CORRECT_PIN) {
             errorMsg.textContent = '';
+            spawnConfettiBurst(); // BARU
             successPopup.classList.remove('hidden');
             successPopup.classList.add('flex');
 
@@ -244,16 +300,147 @@
         }
     }
 
-    function openPuzzle() {
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-        if (trayOrder.length === 0) shufflePuzzle();
-    }
+function openPuzzle() {
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    if (trayOrder.length === 0) shufflePuzzle();
+    if (window.initPuzzleScratchCard) window.initPuzzleScratchCard();
+}
 
     function closePuzzle() {
         modal.classList.add('hidden');
         modal.classList.remove('flex');
     }
+
+    /* =========================================
+   KALENDER TANGGAL SPESIAL
+   Semua bisa dicustom di 5 baris paling atas
+========================================= */
+(function () {
+    const CALENDAR_YEAR = 2029;             // <-- GANTI TAHUN
+    const CALENDAR_MONTH = 10;               // <-- GANTI BULAN (1=Jan ... 12=Des)
+    const CALENDAR_MONTH_NAME = 'Oktober';  // <-- GANTI NAMA BULAN buat ditampilin
+    const CALENDAR_DAYS_IN_MONTH = 31;      // <-- GANTI JUMLAH HARI BULAN ITU (28/29/30/31)
+    const CALENDAR_BIRTHDAY_DATE = 24;      // <-- GANTI TANGGAL ULANG TAHUNNYA
+
+    const label = document.getElementById('calendar-month-label');
+    const grid = document.getElementById('calendar-grid');
+    if (!grid) return;
+
+    if (label) label.textContent = `${CALENDAR_MONTH_NAME} ${CALENDAR_YEAR}`;
+
+    // Hitung tanggal 1 di bulan itu jatuh hari apa (0=Minggu...6=Sabtu)
+    const firstDayWeekday = new Date(CALENDAR_YEAR, CALENDAR_MONTH - 1, 1).getDay();
+
+    // Kotak kosong sebelum tanggal 1 biar sejajar sama hari yang bener
+    for (let i = 0; i < firstDayWeekday; i++) {
+        const empty = document.createElement('div');
+        empty.className = 'calendar-day empty';
+        grid.appendChild(empty);
+    }
+
+    // Render tanggal 1 sampai akhir bulan
+    for (let day = 1; day <= CALENDAR_DAYS_IN_MONTH; day++) {
+        const cell = document.createElement('div');
+        cell.className = 'calendar-day';
+        cell.textContent = day;
+        if (day === CALENDAR_BIRTHDAY_DATE) {
+            cell.classList.add('is-birthday');
+        }
+        grid.appendChild(cell);
+    }
+})();
+
+    /* =========================================
+   SCRATCH CARD — gosok buat liat contoh puzzle
+========================================= */
+(function () {
+    let scratchInitialized = false;
+
+    function initScratchCard() {
+        if (scratchInitialized) return;
+        scratchInitialized = true;
+
+        const canvas = document.getElementById('puzzle-scratch-canvas');
+        const img = document.getElementById('puzzle-reference-img');
+        const hint = document.getElementById('puzzle-scratch-hint');
+        if (!canvas || !img) return;
+
+        function setup() {
+            const rect = img.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            const ctx = canvas.getContext('2d');
+
+            const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            grad.addColorStop(0, '#FFB7C5');
+            grad.addColorStop(1, '#ff8fa3');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#ffffff';
+            ctx.font = `${Math.max(10, canvas.width * 0.09)}px sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('✨ Gosok sini ✨', canvas.width / 2, canvas.height / 2);
+
+            let isDrawing = false;
+            let strokeCount = 0;
+
+            function getPos(e) {
+                const r = canvas.getBoundingClientRect();
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                return { x: clientX - r.left, y: clientY - r.top };
+            }
+
+            function scratchAt(x, y) {
+                ctx.globalCompositeOperation = 'destination-out';
+                ctx.beginPath();
+                ctx.arc(x, y, Math.max(canvas.width, canvas.height) * 0.09, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            function checkProgress() {
+                strokeCount++;
+                if (strokeCount % 6 !== 0) return; // throttle biar ringan
+                const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+                let transparent = 0, total = 0;
+                for (let i = 3; i < data.length; i += 32) {
+                    total++;
+                    if (data[i] === 0) transparent++;
+                }
+                if (transparent / total > 0.55) revealFully();
+            }
+
+            function revealFully() {
+                canvas.classList.add('scratch-cleared');
+                if (hint) hint.textContent = '🌸 Contoh gambarnya udah keliatan!';
+                setTimeout(() => { canvas.style.display = 'none'; }, 500);
+                canvas.removeEventListener('pointerdown', onDown);
+                canvas.removeEventListener('pointermove', onMove);
+            }
+
+            function onDown(e) { isDrawing = true; const p = getPos(e); scratchAt(p.x, p.y); }
+            function onMove(e) {
+                if (!isDrawing) return;
+                e.preventDefault();
+                const p = getPos(e);
+                scratchAt(p.x, p.y);
+                checkProgress();
+            }
+            function onUp() { isDrawing = false; }
+
+            canvas.addEventListener('pointerdown', onDown);
+            canvas.addEventListener('pointermove', onMove);
+            window.addEventListener('pointerup', onUp);
+        }
+
+        if (img.complete) setup(); else img.addEventListener('load', setup);
+    }
+
+    // Dipanggil dari modul puzzle pas modal dibuka
+    window.initPuzzleScratchCard = initScratchCard;
+})();
 
     openBtn.addEventListener('click', openPuzzle);
     closeBtn.addEventListener('click', closePuzzle);
