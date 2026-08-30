@@ -54,21 +54,34 @@
    Mau ganti PIN-nya? Tinggal ubah nilai di bawah ini!
 ========================================= */
 (function () {
-    const CORRECT_PIN = "0814"; // <-- GANTI PIN RAHASIA DI SINI
+    const CORRECT_PIN = "0814"; // <-- GANTI PIN RAHASIA DI SINI (angka aja, sesuai keypad)
+    const MAX_PIN_LENGTH = 10;
 
     const gate = document.getElementById('pin-gate');
     const gateBox = document.getElementById('pin-gate-box');
-    const input = document.getElementById('pin-input');
+    const display = document.getElementById('pin-display');
+    const keypad = document.getElementById('pin-keypad');
+    const clearBtn = document.getElementById('pin-key-clear');
+    const backspaceBtn = document.getElementById('pin-key-backspace');
     const submitBtn = document.getElementById('pin-submit-btn');
     const errorMsg = document.getElementById('pin-error-msg');
     const successPopup = document.getElementById('pin-success-popup');
 
-    if (!gate || !input || !submitBtn) return;
+    if (!gate || !display || !keypad || !submitBtn) return;
 
     document.body.classList.add('pin-locked');
-    setTimeout(() => input.focus(), 300);
 
-    // Kumpulan pesan lucu kalau PIN salah, dipilih random tiap kali
+    let enteredPin = '';
+
+    function renderDisplay() {
+        display.innerHTML = '';
+        for (let i = 0; i < enteredPin.length; i++) {
+            const dot = document.createElement('span');
+            dot.className = 'pin-dot';
+            display.appendChild(dot);
+        }
+    }
+
     const funnyWrongMessages = [
         "Yah, salah tuh! 🙈 Coba lagi dong~",
         "Eits, bukan itu PIN-nya! 😜",
@@ -78,80 +91,43 @@
         "Nope! Bukan itu, semangat coba lagi ya 💪"
     ];
 
+    // Kalau kamu udah nambahin confetti sebelumnya, biarin fungsi ini.
+    // Kalau belum pernah nambahin, boleh hapus fungsi ini + baris yang manggilnya di bawah.
+    function spawnConfettiBurst() {
+        const emojis = ['🌸', '🎉', '✨', '💗', '🎊'];
+        for (let i = 0; i < 28; i++) {
+            const piece = document.createElement('span');
+            piece.className = 'confetti-piece';
+            piece.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            const angle = Math.random() * Math.PI * 2;
+            const distance = 120 + Math.random() * 160;
+            piece.style.setProperty('--tx', `${Math.cos(angle) * distance}px`);
+            piece.style.setProperty('--ty', `${Math.sin(angle) * distance - 40}px`);
+            piece.style.setProperty('--rot', `${Math.random() * 360 - 180}deg`);
+            piece.style.animationDelay = `${Math.random() * 0.15}s`;
+            document.body.appendChild(piece);
+            setTimeout(() => piece.remove(), 1400);
+        }
+    }
+
     function showError() {
         const msg = funnyWrongMessages[Math.floor(Math.random() * funnyWrongMessages.length)];
         errorMsg.textContent = msg;
         gateBox.classList.remove('pin-shake');
-        void gateBox.offsetWidth; // trik biar animasi bisa diulang
+        void gateBox.offsetWidth;
         gateBox.classList.add('pin-shake');
-        input.value = '';
-        input.focus();
+        enteredPin = '';
+        renderDisplay();
     }
-    
-    function spawnConfettiBurst() {
-    const emojis = ['🌸', '🎉', '✨', '💗', '🎊'];
-    for (let i = 0; i < 28; i++) {
-        const piece = document.createElement('span');
-        piece.className = 'confetti-piece';
-        piece.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-        const angle = Math.random() * Math.PI * 2;
-        const distance = 120 + Math.random() * 160;
-        piece.style.setProperty('--tx', `${Math.cos(angle) * distance}px`);
-        piece.style.setProperty('--ty', `${Math.sin(angle) * distance - 40}px`);
-        piece.style.setProperty('--rot', `${Math.random() * 360 - 180}deg`);
-        piece.style.animationDelay = `${Math.random() * 0.15}s`;
-        document.body.appendChild(piece);
-        setTimeout(() => piece.remove(), 1400);
-    }
-}
-
-/* =========================================
-   GALLERY — foto awalnya blur, tap buat reveal
-========================================= */
-(function () {
-    const gallery = document.getElementById('lightgallery');
-    if (!gallery) return;
-
-    const items = Array.from(gallery.querySelectorAll('a'));
-
-    items.forEach((item) => {
-        const img = item.querySelector('img');
-        if (!img) return;
-
-        item.classList.add('gallery-item');
-        img.classList.add('gallery-photo-blurred');
-
-        const hint = document.createElement('span');
-        hint.className = 'gallery-tap-hint';
-        hint.textContent = '👆 Tap buat lihat';
-        item.appendChild(hint);
-
-        let revealed = false;
-
-        item.addEventListener('click', (e) => {
-            if (!revealed) {
-                // Tap pertama: cuma buka blur-nya, belum buka lightbox
-                e.preventDefault();
-                e.stopPropagation();
-                img.classList.remove('gallery-photo-blurred');
-                img.classList.add('gallery-photo-revealed');
-                hint.classList.add('hint-hidden');
-                revealed = true;
-            }
-            // Tap kedua dst: lanjut buka lightbox seperti biasa
-        });
-    });
-})();
 
     function checkPin() {
-        const value = input.value.trim();
-        if (value === CORRECT_PIN) {
+        if (enteredPin === CORRECT_PIN) {
             errorMsg.textContent = '';
-            spawnConfettiBurst(); // BARU
+            spawnConfettiBurst(); // hapus baris ini kalau belum pakai fitur confetti
+            if (window.startBackgroundMusic) window.startBackgroundMusic(); // hapus baris ini kalau belum pakai fitur musik-on-buka
             successPopup.classList.remove('hidden');
             successPopup.classList.add('flex');
 
-            // Setelah popup lucu muncul sebentar, baru website-nya kebuka
             setTimeout(() => {
                 gate.classList.add('pin-hidden');
                 document.body.classList.remove('pin-locked');
@@ -167,10 +143,32 @@
         }
     }
 
-    submitBtn.addEventListener('click', checkPin);
-    input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') checkPin();
+    // Tombol angka 0-9
+    keypad.querySelectorAll('[data-key]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+            if (enteredPin.length >= MAX_PIN_LENGTH) return;
+            enteredPin += btn.dataset.key;
+            renderDisplay();
+        });
     });
+
+    // Hapus 1 digit terakhir
+    if (backspaceBtn) {
+        backspaceBtn.addEventListener('click', () => {
+            enteredPin = enteredPin.slice(0, -1);
+            renderDisplay();
+        });
+    }
+
+    // Hapus semua digit
+    if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+            enteredPin = '';
+            renderDisplay();
+        });
+    }
+
+    submitBtn.addEventListener('click', checkPin);
 })();
 
 /* =========================================
@@ -178,7 +176,7 @@
    buat naruhnya, pake gambar img/puzzle.png
 ========================================= */
 (function () {
-    const GRID_SIZE = 3; // 3x3 = 9 potongan
+    const GRID_SIZE = 3; // 4x4 = 16 potongan
     const TOTAL = GRID_SIZE * GRID_SIZE;
     const IMAGE_SRC = 'img/puzzle.jpg'; // <-- GANTI GAMBAR PUZZLE DI SINI
 

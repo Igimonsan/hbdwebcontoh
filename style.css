@@ -523,3 +523,39 @@ body.pin-locked {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.12); }
 }
+
+/* ============================= */
+/* PIN KEYPAD (angka, bukan keyboard) */
+/* ============================= */
+.pin-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #FFB7C5;
+    display: inline-block;
+}
+
+.pin-key {
+    background: #fff;
+    border: 2px solid #ffe1e8;
+    color: #2c3e50;
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 12px 0;
+    border-radius: 12px;
+    transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.pin-key:hover {
+    background: #fff0f4;
+}
+
+.pin-key:active {
+    transform: scale(0.92);
+    background: #ffd6df;
+}
+
+.pin-key-alt {
+    color: #ff8fa3;
+    font-size: 1rem;
+}
