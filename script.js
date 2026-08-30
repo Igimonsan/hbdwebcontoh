@@ -178,7 +178,7 @@
    buat naruhnya, pake gambar img/puzzle.png
 ========================================= */
 (function () {
-    const GRID_SIZE = 4; // 4x4 = 16 potongan
+    const GRID_SIZE = 3; // 3x3 = 9 potongan
     const TOTAL = GRID_SIZE * GRID_SIZE;
     const IMAGE_SRC = 'img/puzzle.jpg'; // <-- GANTI GAMBAR PUZZLE DI SINI
 
